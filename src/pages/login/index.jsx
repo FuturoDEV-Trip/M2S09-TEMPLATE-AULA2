@@ -6,12 +6,13 @@ import { useForm } from 'react-hook-form'
 export function LoginPage() {
     const { signIn } = useAuth()
     const navigate = useNavigate()
-    const { register, handleSubmit } = useForm()
+    const { register, handleSubmit, formState } = useForm()
+   
+    const { errors, isSubmitting } = formState
 
-    function onSubmit(dados) {
-        console.log(dados)
+    async function onSubmit(dados) {
         try {
-            signIn(dados)
+            await signIn(dados)
             navigate('/dashboard')
         } catch (error) {
             alert(error)
@@ -35,10 +36,16 @@ export function LoginPage() {
                             className="form-control" 
                             id="floatingInput" 
                             placeholder="name@example.com" 
-                            {...register("email", { required: true })}
+                            {...register("email", { 
+                                required: {
+                                    value: true,
+                                    message: "Esse campo é obrigatório"
+                                },
+                            })}
                         />
                         <label htmlFor="floatingInput">Email address</label>
                     </div>
+                    {errors.email && <span className='text-danger text-sm'>{errors.email.message}</span>}
                     <div className="form-floating">
                         <input 
                             type="password" 
@@ -56,7 +63,7 @@ export function LoginPage() {
                             Remember me
                         </label>
                     </div>
-                    <button className="btn btn-primary w-100 py-2" type="submit">Entrar</button>
+                    <button className="btn btn-primary w-100 py-2" type="submit" disabled={isSubmitting}>{isSubmitting ? 'Carrengado...': 'Entrar'}</button>
                     <p className="mt-5 mb-3 text-body-secondary">lab365 &copy; 2024</p>
                     <p>
                         Não possui cadastro? <Link to="/cadastro">Cadastra-se</Link> 
