@@ -39,7 +39,7 @@ export function AuthProvider({ children }) {
         }
 
         setUser(userResponse)
-        localStorage.setItem('userLoggedStorageuserLogged', JSON.stringify(userResponse))
+        localStorage.setItem('@lab365:userLogged', JSON.stringify(userResponse))
         localStorage.setItem('@lab365:token', Date.now())
     }
 
