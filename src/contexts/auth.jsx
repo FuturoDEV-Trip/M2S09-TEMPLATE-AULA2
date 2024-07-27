@@ -45,6 +45,8 @@ export function AuthProvider({ children }) {
 
     function signOut() {
         setUser(null)
+        localStorage.removeItem('@lab365:userLogged')
+        localStorage.removeItem('@lab365:token')
     }
 
     return <AuthContext.Provider value={{ user, signIn, signOut }}>{children}</AuthContext.Provider>
